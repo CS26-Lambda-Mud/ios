@@ -14,6 +14,6 @@ struct Enviornment: Codable {
     let description: String
 }
 
-struct Move: Codable {
+struct MoveDirection: Codable {
     let direction: String
 }

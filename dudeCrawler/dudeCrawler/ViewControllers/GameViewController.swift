@@ -9,6 +9,13 @@
 import UIKit
 import SpriteKit
 
+enum Directions: String {
+    case n
+    case e
+    case s
+    case w
+}
+
 class GameViewController: UIViewController {
     
     // MARK: - IBOutlets & Properties
@@ -24,6 +31,7 @@ class GameViewController: UIViewController {
     let signInController = SignInController()
     let myText = "Welcome To Dude Dungeon Crawler"
     var accessKey = KeychainWrapper.standard.string(forKey: "accessKey")
+    var moveDirection: MoveDirection?
     var currentEnv: Enviornment? {
         didSet {
             scriptTextView.text = ""
@@ -84,17 +92,32 @@ class GameViewController: UIViewController {
         }
     }
     
-    @IBAction func northButtonTapped(_ sender: UIButton) {
+    @IBAction func moveButtonTapped(_ sender: UIButton) {
+        switch sender.tag {
+        case 0:
+            moveDirection = MoveDirection(direction: Directions.n.rawValue)
+        case 1:
+            moveDirection = MoveDirection(direction: Directions.e.rawValue)
+        case 2:
+            moveDirection = MoveDirection(direction: Directions.s.rawValue)
+        case 3:
+            moveDirection = MoveDirection(direction: Directions.w.rawValue)
+        default:
+            return
+        }
+        guard let accessKey = accessKey,
+            let moveDir = moveDirection else { return }
+        gameController.move(direction: moveDir, token: accessKey) { (result) in
+            if (try? result.get()) != nil {
+                DispatchQueue.main.async {
+                    self.currentEnv = self.gameController.enviornment
+                }
+            } else {
+                NSLog("Error logging in with \(result)")
+            }
+        }
     }
-    
-    @IBAction func eastButtonTapped(_ sender: UIButton) {
-    }
-    
-    @IBAction func southButtonTapped(_ sender: UIButton) {
-    }
-    
-    @IBAction func westButtonTapped(_ sender: Any) {
-    }
+
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SignInSegue" {

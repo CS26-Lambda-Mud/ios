@@ -16,13 +16,12 @@ class GameController {
     var enviornment: Enviornment?
     
     func startGameWith(token: String, completion: @escaping (Result<Enviornment, NetworkError>) -> Void) {
-        let url = Settings.shared.baseURL.appendingPathComponent("api/adv/move/")
+        let url = Settings.shared.baseURL.appendingPathComponent("api/adv/init/")
         let authString = "Token \(token)"
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.get.rawValue
         request.setValue(authString, forHTTPHeaderField: "Authorization")
-        request.setValue("appication/json", forHTTPHeaderField: "Content-Type")
-        
+
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
                 print(response.statusCode)
@@ -53,13 +52,20 @@ class GameController {
         }.resume()
     }
     
-    func move(direction: String, token: String, completion: @escaping (Result<Enviornment, NetworkError>) -> Void) {
-        let url = Settings.shared.baseURL.appendingPathComponent("api/adv/init/")
+    func move(direction: MoveDirection, token: String, completion: @escaping (Result<Enviornment, NetworkError>) -> Void) {
+        let url = Settings.shared.baseURL.appendingPathComponent("api/adv/move/")
         let authString = "Token \(token)"
         var request = URLRequest(url: url)
-        request.httpMethod = HTTPMethod.get.rawValue
+        request.httpMethod = HTTPMethod.post.rawValue
         request.setValue(authString, forHTTPHeaderField: "Authorization")
+        request.setValue("appication/json", forHTTPHeaderField: "Content-Type")
         
+        do{
+            request.httpBody = try encoder.encode(direction)
+        } catch {
+            print("Error encoding move direction: \(error)")
+            return
+        }
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let response = response as? HTTPURLResponse, response.statusCode != 200 {
