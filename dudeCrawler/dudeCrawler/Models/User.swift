@@ -12,3 +12,9 @@ struct User: Codable {
     var username: String
     var password: String
 }
+
+struct RegistrationInfo: Codable {
+    var username: String
+    var password1: String
+    var password2: String
+}
