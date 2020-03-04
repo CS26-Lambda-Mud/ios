@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TJ8-pw-QGy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
@@ -163,6 +163,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="bYp-lH-gYO"/>
                     <connections>
                         <outlet property="eastButton" destination="Eca-Mh-gDc" id="qeb-vJ-u5T"/>
                         <outlet property="northButton" destination="AqP-9C-pjL" id="Zs2-sw-60i"/>
@@ -170,29 +171,29 @@
                         <outlet property="skView1" destination="lxx-PL-OUC" id="pZ8-n7-Z4F"/>
                         <outlet property="southButton" destination="juC-M0-KVH" id="KAH-z6-CfS"/>
                         <outlet property="westButton" destination="CWE-Ed-jbp" id="1eI-w7-kP1"/>
-                        <segue destination="VSx-8z-AwQ" kind="presentation" id="V72-Ch-Jqo"/>
+                        <segue destination="VSx-8z-AwQ" kind="presentation" identifier="SignInSegue" modalPresentationStyle="fullScreen" id="0fM-mS-qbd"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
+            <point key="canvasLocation" x="1042.0289855072465" y="138.61607142857142"/>
         </scene>
-        <!--View Controller-->
+        <!--Signin View Controller-->
         <scene sceneID="dSe-wv-tuj">
             <objects>
-                <viewController id="VSx-8z-AwQ" sceneMemberID="viewController">
+                <viewController id="VSx-8z-AwQ" customClass="SigninViewController" customModule="dudeCrawler" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="BFO-Vz-dZL">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dude Dungeon Crawler" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBP-nF-db9">
-                                <rect key="frame" x="20" y="20" width="232" height="27.5"/>
+                                <rect key="frame" x="20" y="64" width="232" height="27.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="23"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qio-lo-67b">
-                                <rect key="frame" x="20" y="106.5" width="374" height="244"/>
+                                <rect key="frame" x="20" y="150.5" width="374" height="244"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Username:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="00e-ku-E40">
                                         <rect key="frame" x="0.0" y="0.0" width="83.5" height="34"/>
@@ -235,14 +236,17 @@
                                 </constraints>
                             </stackView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="C1z-Vi-75Q">
-                                <rect key="frame" x="0.0" y="55.5" width="414" height="32"/>
+                                <rect key="frame" x="0.0" y="99.5" width="414" height="32"/>
                                 <segments>
                                     <segment title="Register"/>
                                     <segment title="Login"/>
                                 </segments>
+                                <connections>
+                                    <action selector="optionControlValueChanged:" destination="VSx-8z-AwQ" eventType="valueChanged" id="5qa-et-Sp8"/>
+                                </connections>
                             </segmentedControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oai-uT-7b3">
-                                <rect key="frame" x="20" y="430.5" width="374" height="50"/>
+                                <rect key="frame" x="20" y="474.5" width="374" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="50" id="EHV-wi-hvN"/>
@@ -250,6 +254,9 @@
                                 <state key="normal" title="Button">
                                     <color key="titleColor" systemColor="tertiarySystemGroupedBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
+                                <connections>
+                                    <action selector="submitButtonTapped:" destination="VSx-8z-AwQ" eventType="touchUpInside" id="xCF-aO-0mL"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
@@ -269,10 +276,36 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="kU2-m1-iCJ"/>
                     </view>
+                    <connections>
+                        <outlet property="confirmPasswordLabel" destination="JVr-xi-394" id="1hm-gD-iq9"/>
+                        <outlet property="optionsSegmentedControl" destination="C1z-Vi-75Q" id="kyi-hn-12R"/>
+                        <outlet property="password1TextField" destination="IUf-HM-UGo" id="5Kp-Cr-hCp"/>
+                        <outlet property="password2TextField" destination="xTw-zx-2LH" id="YiT-ge-gap"/>
+                        <outlet property="submitButton" destination="oai-uT-7b3" id="m3N-Ya-aha"/>
+                        <outlet property="usernameTextField" destination="uUY-J1-TCA" id="SnH-ye-tHy"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dUQ-V3-0wI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="982.60869565217399" y="138.61607142857142"/>
+            <point key="canvasLocation" x="1892.753623188406" y="138.61607142857142"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="pRC-6j-TAt">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="TJ8-pw-QGy" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4IF-7Y-Ynb">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="H4L-Qd-VnR"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YfG-TE-TBo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="131.8840579710145" y="138.61607142857142"/>
         </scene>
     </scenes>
     <resources>

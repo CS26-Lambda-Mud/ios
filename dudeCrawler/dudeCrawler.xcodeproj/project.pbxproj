@@ -20,6 +20,7 @@
 		32E41B6E240F1E6A0082FA6A /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B6D240F1E6A0082FA6A /* User.swift */; };
 		32E41B71240F28540082FA6A /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B70240F28540082FA6A /* KeychainWrapper.swift */; };
 		32E41B73240F288B0082FA6A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B72240F288B0082FA6A /* KeychainItemAccessibility.swift */; };
+		32E41B78240F2DB10082FA6A /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B77240F2DB10082FA6A /* SigninViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		32E41B6D240F1E6A0082FA6A /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		32E41B70240F28540082FA6A /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		32E41B72240F288B0082FA6A /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
+		32E41B77240F2DB10082FA6A /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +76,7 @@
 				32E41B6C240F1D030082FA6A /* ModelControllers */,
 				32E41B68240F1AF60082FA6A /* Views */,
 				32E41B69240F1B0C0082FA6A /* ViewControllers */,
+				32E41B76240F2D5B0082FA6A /* Helpers */,
 				32E41B67240F1AE00082FA6A /* Resources */,
 			);
 			path = dudeCrawler;
@@ -108,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				32C13DC2240EF7EC00F7032F /* GameViewController.swift */,
+				32E41B77240F2DB10082FA6A /* SigninViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -126,6 +130,13 @@
 				32E41B6D240F1E6A0082FA6A /* User.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		32E41B76240F2D5B0082FA6A /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -201,6 +212,7 @@
 			files = (
 				32E41B71240F28540082FA6A /* KeychainWrapper.swift in Sources */,
 				32C13DAF240EF77000F7032F /* AppDelegate.swift in Sources */,
+				32E41B78240F2DB10082FA6A /* SigninViewController.swift in Sources */,
 				32C13DC5240EF83600F7032F /* CustomScene.swift in Sources */,
 				32E41B73240F288B0082FA6A /* KeychainItemAccessibility.swift in Sources */,
 				32E41B6B240F1CFC0082FA6A /* SignInController.swift in Sources */,

@@ -11,6 +11,8 @@ import SpriteKit
 
 class GameViewController: UIViewController {
     
+    // MARK: - IBOutlets & Properties
+
     @IBOutlet weak var skView1: SKView!
     @IBOutlet weak var scriptTextView: UITextView!
     @IBOutlet weak var northButton: UIButton!
@@ -19,14 +21,17 @@ class GameViewController: UIViewController {
     @IBOutlet weak var westButton: UIButton!
     
     var skScene: CustomScene? = nil
-    
+    let signInController = SignInController()
     let myText = "Welcome To Dude Dungeon Crawler"
+    
+    // MARK: - View LifeCycle
+    
     
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         scriptTextView.text = ""
-        animateText(text: myText)
+        //animateText(text: myText)
 
     }
 
@@ -34,7 +39,12 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         skScene = CustomScene(size: view.bounds.size)
         skView1.presentScene(skScene)
+        if KeychainWrapper.standard.string(forKey: "accessToken") == nil {
+            performSegue(withIdentifier: "SignInSegue", sender: self)
+        }
     }
+    
+    // MARK: - IBActions & Methods
     
     private func animateText(text: String) {
         for char in text {
@@ -55,5 +65,12 @@ class GameViewController: UIViewController {
     }
     
     @IBAction func westButtonTapped(_ sender: Any) {
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "SignInSegue" {
+            guard let signInVC = segue.destination as? SigninViewController else { return }
+            signInVC.signInController = signInController
+        }
     }
 }
