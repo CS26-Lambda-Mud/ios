@@ -15,10 +15,16 @@ enum HTTPMethod: String {
     case delete = "DELETE"
 }
 
+enum AccessToken: String {
+    case accessToken
+}
+
 class SignInController {
     
+    var token: String? = KeychainWrapper.standard.string(forKey: AccessToken.accessToken.rawValue)
+    
     func register(with registrationInfo: RegistrationInfo, completion: @escaping (Error?) -> Void) {
-        let url = Settings.shared.baseURL.appendingPathComponent("api").appendingPathComponent("registration")
+        let url = Settings.shared.baseURL.appendingPathComponent("api").appendingPathComponent("registration/")
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = HTTPMethod.post.rawValue
@@ -46,8 +52,7 @@ class SignInController {
     }
     
     func signIn(with user: User, completion: @escaping (String?, Error?) -> Void) {
-        var token: String?
-        let url = Settings.shared.baseURL.appendingPathComponent("api").appendingPathComponent("login")
+        let url = Settings.shared.baseURL.appendingPathComponent("api").appendingPathComponent("login/")
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = HTTPMethod.post.rawValue
@@ -55,6 +60,8 @@ class SignInController {
         do {
             let jsonEncoder = JSONEncoder()
             request.httpBody = try jsonEncoder.encode(user)
+            print(request.httpBody)
+            print(request.httpBody!)
         } catch {
             completion(nil, error)
             return
@@ -62,7 +69,7 @@ class SignInController {
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let response = response as? HTTPURLResponse,
-                response.statusCode != 200 && response.statusCode != 201 {
+                response.statusCode != 200 {
                 completion(nil, NSError(domain: "", code: response.statusCode, userInfo: nil))
                 return
             }
@@ -76,11 +83,11 @@ class SignInController {
             }
             do{
                 let jsonDecoder = JSONDecoder()
-                token = try jsonDecoder.decode(String.self, from: data)
+                self.token = try jsonDecoder.decode(String.self, from: data)
                 let json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? NSDictionary
                 if let parseJSON = json {
                     let accessToken = parseJSON["key"] as? String
-                    let saveAccessToken: Bool = KeychainWrapper.standard.set(accessToken!, forKey: "accessToken")
+                    let saveAccessToken: Bool = KeychainWrapper.standard.set(accessToken!, forKey: AccessToken.accessToken.rawValue)
                     print("The access token save result: \(saveAccessToken)")
                     if (accessToken?.isEmpty)! {
                         NSLog("Error parsking token:\(error)")
@@ -90,7 +97,7 @@ class SignInController {
                 NSLog("error parsing token:\(error)")
                 return
             }
-            completion(token,nil)
+            completion(self.token,nil)
         }.resume()
     }
 }
