@@ -21,6 +21,8 @@
 		32E41B71240F28540082FA6A /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B70240F28540082FA6A /* KeychainWrapper.swift */; };
 		32E41B73240F288B0082FA6A /* KeychainItemAccessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B72240F288B0082FA6A /* KeychainItemAccessibility.swift */; };
 		32E41B78240F2DB10082FA6A /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B77240F2DB10082FA6A /* SigninViewController.swift */; };
+		32E41B7A2410501F0082FA6A /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B792410501F0082FA6A /* GameController.swift */; };
+		32E41B7C241052120082FA6A /* Enviornment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E41B7B241052120082FA6A /* Enviornment.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		32E41B70240F28540082FA6A /* KeychainWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		32E41B72240F288B0082FA6A /* KeychainItemAccessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItemAccessibility.swift; sourceTree = "<group>"; };
 		32E41B77240F2DB10082FA6A /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
+		32E41B792410501F0082FA6A /* GameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameController.swift; sourceTree = "<group>"; };
+		32E41B7B241052120082FA6A /* Enviornment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enviornment.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				32E41B6A240F1CFC0082FA6A /* SignInController.swift */,
+				32E41B792410501F0082FA6A /* GameController.swift */,
 			);
 			path = ModelControllers;
 			sourceTree = "<group>";
@@ -128,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				32E41B6D240F1E6A0082FA6A /* User.swift */,
+				32E41B7B241052120082FA6A /* Enviornment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -211,12 +217,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				32E41B71240F28540082FA6A /* KeychainWrapper.swift in Sources */,
+				32E41B7A2410501F0082FA6A /* GameController.swift in Sources */,
 				32C13DAF240EF77000F7032F /* AppDelegate.swift in Sources */,
 				32E41B78240F2DB10082FA6A /* SigninViewController.swift in Sources */,
 				32C13DC5240EF83600F7032F /* CustomScene.swift in Sources */,
 				32E41B73240F288B0082FA6A /* KeychainItemAccessibility.swift in Sources */,
 				32E41B6B240F1CFC0082FA6A /* SignInController.swift in Sources */,
 				32C13DC3240EF7EC00F7032F /* GameViewController.swift in Sources */,
+				32E41B7C241052120082FA6A /* Enviornment.swift in Sources */,
 				32E41B6E240F1E6A0082FA6A /* User.swift in Sources */,
 				32C13DC9240EF8D900F7032F /* SKSpriteNode+Utility.swift in Sources */,
 				32C13DB1240EF77000F7032F /* SceneDelegate.swift in Sources */,

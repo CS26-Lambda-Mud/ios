@@ -28,7 +28,7 @@ class SigninViewController: UIViewController {
     @IBOutlet weak var submitButton: UIButton!
     
     var signInController: SignInController?
-    var token: String?
+    var key: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,11 +60,15 @@ class SigninViewController: UIViewController {
             
             DispatchQueue.main.async {
                 let user = User(username: username, password: password)
-                self.signInController?.signIn(with: user, completion: { (token, error) in
-                    if let error = error {
-                        NSLog("Error signing in at registration:\(error)")
+                signInController.signInWith(user: user) { (result) in
+                    if (try? result.get()) != nil {
+                        DispatchQueue.main.async {
+                            self.dismiss(animated: true, completion: nil)
+                        }
+                    } else {
+                        NSLog("Error logging in with \(result)")
                     }
-                })
+                }
             }
         }
     }
@@ -75,7 +79,7 @@ class SigninViewController: UIViewController {
             let password = password1TextField.text else { return }
         
         let userToSignIn = User(username: username, password: password)
-        signInWith(user: userToSignIn) { (result) in
+        signInController.signInWith(user: userToSignIn) { (result) in
             if (try? result.get()) != nil {
                 DispatchQueue.main.async {
                     self.dismiss(animated: true, completion: nil)
@@ -122,10 +126,10 @@ class SigninViewController: UIViewController {
             let decoder = JSONDecoder()
             do{
                 let result = try decoder.decode(Dictionary<String, String>.self, from: data)
-                self.token = result["key"]
-                if let token = self.token {
-                    KeychainWrapper.standard.set(token, forKey: "token")
-                    completion(.success(token))
+                self.key = result["key"]
+                if let key = self.key {
+                    KeychainWrapper.standard.set(key, forKey: "accessKey")
+                    completion(.success(key))
                 }
             } catch {
                 NSLog("error decoding key:\(error)")
