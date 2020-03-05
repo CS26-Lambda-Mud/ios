@@ -6,8 +6,22 @@
 //  Copyright © 2019 jake connerly. All rights reserved.
 //
 
+
 import Foundation
 import SpriteKit
+
+enum SpriteMovement: String {
+    case north
+    case east
+    case south
+    case west
+    case idle
+}
+
+enum SpriteNames: String {
+    case dudeWalk
+    case dudeIdle
+}
 
 class CustomScene: SKScene {
     let dude = SKSpriteNode()
@@ -18,6 +32,40 @@ class CustomScene: SKScene {
         addChild(dude)
         dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
         dude.position = Settings.shared.position
+    }
+    
+    func moveSpriteHorizontal(position: CGFloat) {
+        Settings.shared.dude = SpriteNames.dudeWalk.rawValue
+        dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        dude.position = Settings.shared.position
+        let moveLeftRight = SKAction.moveTo(x: position, duration: 2.0)
+        let fade = SKAction.fadeOut(withDuration: 2.0)
+        dude.run(fade, withKey: "fade")
+        dude.run(moveLeftRight) {
+            let fadeIn = SKAction.fadeIn(withDuration: 0.01)
+            self.dude.run(fadeIn)
+            self.dude.removeAction(forKey: "fade")
+            self.dude.position = Settings.shared.position
+            Settings.shared.dude = SpriteNames.dudeIdle.rawValue
+            self.dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        }
+    }
+    
+    func moveSpriteVertical(position: CGFloat) {
+        Settings.shared.dude = SpriteNames.dudeWalk.rawValue
+        dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        dude.position = Settings.shared.position
+        let moveUpDown = SKAction.moveTo(y: position, duration: 2.0)
+        let fade = SKAction.fadeOut(withDuration: 2.0)
+        dude.run(fade, withKey: "fade")
+        dude.run(moveUpDown) {
+            let fadeIn = SKAction.fadeIn(withDuration: 0.01)
+            self.dude.run(fadeIn)
+            self.dude.removeAction(forKey: "fade")
+            self.dude.position = Settings.shared.position
+            Settings.shared.dude = SpriteNames.dudeIdle.rawValue
+            self.dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        }
     }
     
 //    // Move to touch

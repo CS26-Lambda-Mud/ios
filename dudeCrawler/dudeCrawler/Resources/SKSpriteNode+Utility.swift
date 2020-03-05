@@ -3,6 +3,7 @@ import SpriteKit
 extension SKSpriteNode {
     static let textureKey = "Texture Key"
     
+    
     // Load textures for a sprite node and run that sequence forever
     func loadTextures(named name: String, forKey key: String) {
         // Load atlas

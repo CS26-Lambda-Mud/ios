@@ -15,4 +15,5 @@ class Settings {
     var baseURL = URL(string: "https://lambda-mud-test.herokuapp.com/")!
     var dude = "dudeIdle"
     var position = CGPoint(x: 200, y: 200)
+    var movementDirection: String = ""
 }

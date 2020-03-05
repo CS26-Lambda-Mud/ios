@@ -74,9 +74,9 @@ class GameViewController: UIViewController {
     private func animateText(text: String) {
         for char in text {
             scriptTextView.text! += "\(char)"
-            RunLoop.current.run(until: Date() + 0.05)
+            RunLoop.current.run(until: Date() + 0.01)
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
             self.enableMoveButtons()
         }
     }
@@ -144,12 +144,16 @@ class GameViewController: UIViewController {
         switch sender.tag {
         case 0:
             moveDirection = MoveDirection(direction: Directions.n.rawValue)
+            skScene?.moveSpriteVertical(position: 700)
         case 1:
             moveDirection = MoveDirection(direction: Directions.e.rawValue)
+            skScene?.moveSpriteHorizontal(position: skScene!.frame.size.width)
         case 2:
             moveDirection = MoveDirection(direction: Directions.s.rawValue)
+            skScene?.moveSpriteVertical(position: 0)
         case 3:
             moveDirection = MoveDirection(direction: Directions.w.rawValue)
+            skScene?.moveSpriteHorizontal(position: 0.0)
         default:
             return
         }
