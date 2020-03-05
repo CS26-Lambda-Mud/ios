@@ -21,11 +21,13 @@ enum SpriteMovement: String {
 enum SpriteNames: String {
     case dudeWalk
     case dudeIdle
+    case dudeWave
+    case dudeJump
 }
 
 class CustomScene: SKScene {
     let dude = SKSpriteNode()
-    
+    var didJump = false
     // Add and center child, initializing animation sequence
     override func sceneDidLoad() {
         super.sceneDidLoad()
@@ -68,6 +70,29 @@ class CustomScene: SKScene {
         }
     }
     
+    func wave() {
+        Settings.shared.dude = SpriteNames.dudeWave.rawValue
+         dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        dude.position = Settings.shared.position
+        let action = SKAction.animate(with: SKSpriteNode.textures, timePerFrame: 0.03333)
+        let foreverAction = SKAction.repeatForever(action)
+        self.run(foreverAction, withKey: "wave")
+    }
+    
+    func jump(completion: @escaping (Bool) -> Void) {
+        Settings.shared.dude = SpriteNames.dudeJump.rawValue
+         dude.loadTextures(named: Settings.shared.dude, forKey: SKSpriteNode.textureKey)
+        dude.position = Settings.shared.position
+        let jumpAction = SKAction.animate(with: SKSpriteNode.textures, timePerFrame: 0.4)
+        let moveUp = SKAction.moveTo(y: dude.position.y + 30, duration: 0.2)
+        let moveDown = SKAction.moveTo(y: dude.position.y, duration: 0.2)
+        
+        let sequence = SKAction.sequence([jumpAction, moveUp, moveDown])
+        dude.run(sequence) {
+            self.didJump = true
+            completion(self.didJump)
+        }
+    }
 //    // Move to touch
 //    public override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
 //

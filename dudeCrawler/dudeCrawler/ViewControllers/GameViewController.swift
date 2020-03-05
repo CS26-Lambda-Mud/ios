@@ -32,21 +32,7 @@ class GameViewController: UIViewController {
     let myText = "Welcome To Dude Dungeon Crawler"
     var accessKey = KeychainWrapper.standard.string(forKey: "accessKey")
     var moveDirection: MoveDirection?
-    var currentEnv: Enviornment? {
-        didSet {
-            if currentEnv?.errorMessage == "" || currentEnv?.errorMessage == nil {
-                scriptTextView.text = ""
-                updateGameText()
-            } else {
-                disableMoveButtons()
-                let alertController = UIAlertController(title: "Oops!", message: "You can't go that way!", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
-                enableMoveButtons()
-            }
-        }
-    }
+    var currentEnv: Enviornment?
     
     let gameController = GameController()
     
@@ -96,6 +82,7 @@ class GameViewController: UIViewController {
     }
     
     private func updateGameText() {
+        scriptTextView.text = ""
         var gameText = ""
         guard let currentEnv = currentEnv else { return }
         if currentEnv.title == "Grand Overlook" {
@@ -106,22 +93,13 @@ class GameViewController: UIViewController {
         animateText(text: gameText)
     }
     
-    private func move() {
-        guard let accessKey = accessKey,
-            let moveDir = moveDirection else { return }
-        gameController.move(direction: moveDir, token: accessKey) { (result) in
-            if (try? result.get()) != nil {
-                DispatchQueue.main.async {
-                    self.currentEnv = self.gameController.enviornment
-//                    guard let env = self.currentEnv else { return }
-//                    if self.currentEnv?.errorMessage != "" {
-//
-//                    }
-                }
-            } else {
-                NSLog("Error logging in with \(result)")
-            }
-        }
+    private func wrongWayAlert() {
+        disableMoveButtons()
+        let alertController = UIAlertController(title: "Oops!", message: "You can't go that way!", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
+        enableMoveButtons()
     }
     
     @IBAction func startGameTapped(_ sender: UIButton) {
@@ -130,7 +108,7 @@ class GameViewController: UIViewController {
             if (try? result.get()) != nil {
                 DispatchQueue.main.async {
                     self.currentEnv = self.gameController.enviornment
-                    
+                    self.updateGameText()
                 }
             } else {
                 NSLog("Error logging in with \(result)")
@@ -143,23 +121,87 @@ class GameViewController: UIViewController {
         disableMoveButtons()
         switch sender.tag {
         case 0:
-            moveDirection = MoveDirection(direction: Directions.n.rawValue)
-            skScene?.moveSpriteVertical(position: 700)
+            self.moveDirection = MoveDirection(direction: Directions.n.rawValue)
         case 1:
-            moveDirection = MoveDirection(direction: Directions.e.rawValue)
-            skScene?.moveSpriteHorizontal(position: skScene!.frame.size.width)
+            self.moveDirection = MoveDirection(direction: Directions.e.rawValue)
         case 2:
-            moveDirection = MoveDirection(direction: Directions.s.rawValue)
-            skScene?.moveSpriteVertical(position: 0)
+            self.moveDirection = MoveDirection(direction: Directions.s.rawValue)
         case 3:
-            moveDirection = MoveDirection(direction: Directions.w.rawValue)
-            skScene?.moveSpriteHorizontal(position: 0.0)
+            self.moveDirection = MoveDirection(direction: Directions.w.rawValue)
         default:
             return
         }
-        move()
+        guard let accessKey = accessKey,
+            let moveDir = moveDirection else { return }
+        self.skScene?.wave()
+        gameController.move(direction: moveDir, token: accessKey) { (result) in
+            if (try? result.get()) != nil {
+                DispatchQueue.main.async {
+                    self.currentEnv = self.gameController.enviornment
+                    switch sender.tag {
+                    case 0:
+                        //self.moveDirection = MoveDirection(direction: Directions.n.rawValue)
+                        if self.currentEnv?.errorMessage == "" || self.currentEnv?.errorMessage == nil {
+                            self.skScene?.moveSpriteVertical(position: 700)
+                            self.updateGameText()
+                        } else {
+                            self.skScene?.jump(completion: { (didJump) in
+                                if didJump == true {
+                                    DispatchQueue.main.async {
+                                        self.wrongWayAlert()
+                                    }
+                                }
+                            })
+                        }
+                    case 1:
+                        if self.currentEnv?.errorMessage == "" || self.currentEnv?.errorMessage == nil {
+                            self.skScene?.moveSpriteHorizontal(position: self.skScene!.frame.size.width)
+                            self.updateGameText()
+                        } else {
+                            self.skScene?.jump(completion: { (didJump) in
+                                if didJump == true {
+                                    DispatchQueue.main.async {
+                                        self.wrongWayAlert()
+                                    }
+                                }
+                            })
+                        }
+                    case 2:
+                        if self.currentEnv?.errorMessage == "" || self.currentEnv?.errorMessage == nil {
+                            self.skScene?.moveSpriteVertical(position: 0)
+                            self.updateGameText()
+                        } else {
+                            self.skScene?.wave()
+                            self.skScene?.jump(completion: { (didJump) in
+                                if didJump == true {
+                                    DispatchQueue.main.async {
+                                        self.wrongWayAlert()
+                                    }
+                                }
+                            })                        }
+                    case 3:
+                        if self.currentEnv?.errorMessage == "" || self.currentEnv?.errorMessage == nil {
+                            self.skScene?.moveSpriteHorizontal(position: 0.0)
+                            self.updateGameText()
+                        } else {
+                            self.skScene?.jump(completion: { (didJump) in
+                                if didJump == true {
+                                    DispatchQueue.main.async {
+                                        self.wrongWayAlert()
+                                    }
+                                }
+                            })
+                        }
+                    default:
+                        return
+                    }
+                }
+            } else {
+                NSLog("Error logging in with \(result)")
+            }
+        }
     }
-
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "SignInSegue" {
